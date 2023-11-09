@@ -18,10 +18,15 @@ const nodes = [
   },
 ];
 
+// Define the edge that connects the nodes
+const edges = [
+  { id: 'e1-2', source: '1', target: '2' },
+];
+
 export const render = createRender(() => {
   return (
-    <div style={{ position: "relative", height: "300px", width: "300px" }}>
-      <ReactFlow nodes={nodes}>
+    <div style={{ position: "relative", height: "300px", width: "600px" }}>
+      <ReactFlow nodes={nodes} edges={edges}>
         <Background />
         <Controls />
       </ReactFlow>
