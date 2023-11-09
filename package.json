@@ -1,0 +1,15 @@
+{
+	"scripts": {
+		"dev": "npm run build -- --sourcemap=inline --watch",
+		"build": "esbuild js/widget.jsx --minify --format=esm --bundle --outdir=src/ipyreactflow/static"
+	},
+	"dependencies": {
+		"@anywidget/react": "^0.0.2",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"reactflow": "^11.9.4"
+	},
+	"devDependencies": {
+		"esbuild": "^0.19.5"
+	}
+}
