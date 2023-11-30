@@ -1,30 +1,23 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
-name = "ipyreactflow"
-version = "0.0.0"
-dependencies = ["anywidget"]
+name = "ipymafs"
+version = "0.0.1"
 
-[project.optional-dependencies]
-dev = ["watchfiles", "jupyterlab"]
+dependencies = [
+    "anywidget"
+]
+[tool.poetry]
+name = "ipymafs"
+version = "0.0.1"
+description = ""
+authors = ["kolibril13 <44469195+kolibril13@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
 
-# automatically add the dev feature to the default env (e.g., hatch shell)
-[tool.hatch.envs.default]
-features = ["dev"]
+[tool.poetry.dependencies]
+python = "^3.8"
+anywidget = "^0.6.2"
 
 
-[tool.hatch.build]
-only-packages = true
-artifacts = ["src/ipyreactflow/static/*"]
-
-[tool.hatch.build.hooks.jupyter-builder]
-build-function = "hatch_jupyter_builder.npm_builder"
-ensured-targets = ["src/ipyreactflow/static/widget.js"]
-skip-if-exists = ["src/ipyreactflow/static/widget.js"]
-dependencies = ["hatch-jupyter-builder>=0.5.0"]
-
-[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
-npm = "npm"
-build_cmd = "build"
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
