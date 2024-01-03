@@ -8,6 +8,10 @@ pip install ipyreactflow
 
 # Changelog
 
+## v0.0.4
+
+more hatch
+
 ## v0.0.2
 
 setup hatch
