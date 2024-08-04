@@ -1,0 +1,6 @@
+channels:
+- conda-forge
+dependencies:
+- anywidget
+- esbuild
+- jupyterlab
