@@ -1,55 +1,25 @@
 import * as React from "react";
-import { createRender, useModel } from "@anywidget/react";
-import ReactFlow, { Controls, Background } from "reactflow";
-import "reactflow/dist/style.css";
+import { createRender, useModelState } from "@anywidget/react";
 
+import { ReactFlow, Controls, Background } from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import "./widget.css";
 
+const initialNodes = [
+  { id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
+  { id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
+];
+const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
 
-export const render = createRender(() => {
-  const model = useModel();
-  const [nodes, setNodes] = React.useState([
-    {
-      id: "1",
-      data: { label: "Hello" },
-      position: { x: 0, y: 0 },
-      type: "input",
-    },
-    {
-      id: "2",
-      data: { label: "World" },
-      position: { x: 100, y: 100 },
-    },
-  ]);
-
-  React.useEffect(() => {
-    function handle_custom_msg(msg) {
-      console.log(msg);
-      setNodes([
-        {
-          id: "1",
-          data: { label: "Hello" },
-          position: { x: 0, y: 0 },
-          type: "input",
-        },
-        {
-          id: "2",
-          data: { label: msg },
-          position: { x: 200, y: 100 },
-        },
-      ]);
-    }
-    model.on("msg:custom", handle_custom_msg);
-    return () => model.off("msg:custom", handle_custom_msg);
-  }, [model]);
-
-  const edges = [{ id: "e1-2", source: "1", target: "2" }];
-
+const render = createRender(() => {
   return (
     <div style={{ position: "relative", height: "300px", width: "600px" }}>
-      <ReactFlow nodes={nodes} edges={edges}>
+      <ReactFlow nodes={initialNodes} edges={initialEdges}>
         <Background />
         <Controls />
       </ReactFlow>
     </div>
   );
 });
+
+export default { render };

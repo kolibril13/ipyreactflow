@@ -4,8 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ipyreactflow"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = ["anywidget"]
+readme = "README.md"
 
 [project.optional-dependencies]
 dev = ["watchfiles", "jupyterlab"]
