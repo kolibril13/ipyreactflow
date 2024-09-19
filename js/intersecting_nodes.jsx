@@ -10,7 +10,7 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import "./intersecting_nodes.css";
+import "./intersecting_nodes.css"; 
 
 const initialNodes = [
   {
@@ -34,7 +34,7 @@ const initialNodes = [
   },
   {
     id: "4",
-    data: { label: "Node" },
+    data: { label: "Node 4" },
     position: { x: 350, y: 150 },
     style: {
       width: 50,
@@ -43,22 +43,51 @@ const initialNodes = [
   },
 ];
 
+// Helper function to compare two arrays as sets
+const areArraysEqual = (arr1, arr2) => {
+  if (arr1.length !== arr2.length) return false;
+  const set1 = new Set(arr1);
+  for (const elem of arr2) {
+    if (!set1.has(elem)) return false;
+  }
+  return true;
+};
 
 const FlowComponent = () => {
+  // State for nodes
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+
+  // State for highlighted nodes (stores node IDs)
+  const [highlightedNodes, setHighlightedNodes] = React.useState([]);
+
   const { getIntersectingNodes } = useReactFlow();
 
   const onNodeDrag = React.useCallback(
     (_, node) => {
-      const intersections = getIntersectingNodes(node).map((n) => n.id);
-      setNodes((nds) =>
-        nds.map((n) => ({
-          ...n,
-          className: intersections.includes(n.id) ? "highlight" : "",
-        }))
-      );
+      // Retrieve intersecting nodes
+      const intersectingNodes = getIntersectingNodes(node);
+
+      // Extract the IDs of the intersecting nodes
+      const intersectingIds = intersectingNodes.map((n) => n.id);
+
+      // Check if the intersectingIds are different from current highlightedNodes
+      if (!areArraysEqual(intersectingIds, highlightedNodes)) {
+        // Update the highlightedNodes state
+        setHighlightedNodes(intersectingIds);
+
+        // Update node styles based on intersectingIds
+        setNodes((nds) =>
+          nds.map((n) => ({
+            ...n,
+            className: intersectingIds.includes(n.id) ? "highlight" : "",
+          }))
+        );
+
+        // Log the highlighted node IDs (for debugging)
+        console.log("Highlighted node IDs:", intersectingIds);
+      }
     },
-    [getIntersectingNodes, setNodes]
+    [getIntersectingNodes, setNodes, highlightedNodes] // Dependencies
   );
 
   return (
