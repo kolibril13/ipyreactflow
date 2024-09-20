@@ -1,5 +1,7 @@
+// Updated Code with Correct useModelState Usage
+
 import * as React from "react";
-import { createRender } from "@anywidget/react";
+import { createRender, useModelState } from "@anywidget/react";
 
 import {
   ReactFlow,
@@ -45,6 +47,7 @@ const initialNodes = [
 
 // Helper function to compare two arrays as sets
 const areArraysEqual = (arr1, arr2) => {
+  if (!arr1 || !arr2) return false; // check for undefined
   if (arr1.length !== arr2.length) return false;
   const set1 = new Set(arr1);
   for (const elem of arr2) {
@@ -54,11 +57,16 @@ const areArraysEqual = (arr1, arr2) => {
 };
 
 const FlowComponent = () => {
-  // State for nodes
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 
-  // State for highlighted nodes (stores node IDs)
-  const [highlightedNodes, setHighlightedNodes] = React.useState([]);
+  const [highlightedNodes, setHighlightedNodes] = useModelState("highlighted_nodes");
+
+  // Initialize highlightedNodes if it's undefined
+  React.useEffect(() => {
+    if (highlightedNodes === undefined) {
+      setHighlightedNodes([]);
+    }
+  }, [highlightedNodes, setHighlightedNodes]);
 
   const { getIntersectingNodes } = useReactFlow();
 
@@ -87,7 +95,7 @@ const FlowComponent = () => {
         console.log("Highlighted node IDs:", intersectingIds);
       }
     },
-    [getIntersectingNodes, setNodes, highlightedNodes] // Dependencies
+    [getIntersectingNodes, setNodes, highlightedNodes, setHighlightedNodes] // dependencies
   );
 
   return (

@@ -19,3 +19,4 @@ class IntersectionWidget(anywidget.AnyWidget):
     _esm = pathlib.Path(__file__).parent / "static" / "intersecting_nodes.js"
     _css = pathlib.Path(__file__).parent / "static" / "intersecting_nodes.css"
     value = traitlets.Int(0).tag(sync=True)
+    highlighted_nodes = traitlets.Any([]).tag(sync=True)
