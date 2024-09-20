@@ -56,9 +56,13 @@ const render = createRender(() => {
     if (!edgeReconnectSuccessful.current) {
       setEdges((eds) => eds.filter((e) => e.id !== edge.id));
     }
-
     edgeReconnectSuccessful.current = true;
   }, []);
+
+  React.useEffect(() => {
+    console.log(edges);
+    console.log("Target:", edges[0].target);
+  }, [edges]);
 
   return (
     <div style={{ position: "relative", height: "300px", width: "600px" }}>
