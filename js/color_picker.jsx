@@ -24,24 +24,28 @@ const initialNodes = [
     id: "blue",
     data: { label: "blue" },
     position: { x: 100, y: 200 },
+    style: { backgroundColor: "#A3DFFF" }, // Add blue background
   },
   {
     id: "green",
     data: { label: "green" },
     position: { x: 350, y: 200 },
+    style: { backgroundColor: "#D0FFBC" }, // Add green background
   },
 ];
 
-const initialEdges = [{ id: "e1-2", source: "Color", target: "blue" }];
+const initialEdges = [
+  { id: "e1-2", source: "Color", target: "blue", style: { strokeWidth: 3 } }, // Increase stroke width
+];
 
 const render = createRender(() => {
   const edgeReconnectSuccessful = useRef(true);
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [targetNode, setTargetNode] = useModelState("target_node"); 
+  const [targetNode, setTargetNode] = useModelState("target_node");
 
   const onConnect = useCallback(
-    (params) => setEdges((els) => addEdge(params, els)),
+    (params) => setEdges((els) => addEdge({ ...params, style: { strokeWidth: 3 } }, els)), // Ensure new connections also have thicker lines
     []
   );
 
@@ -51,7 +55,7 @@ const render = createRender(() => {
 
   const onReconnect = useCallback((oldEdge, newConnection) => {
     edgeReconnectSuccessful.current = true;
-    setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
+    setEdges((els) => reconnectEdge({ ...oldEdge, style: { strokeWidth: 3 } }, newConnection, els)); // Apply thicker line when reconnecting
   }, []);
 
   const onReconnectEnd = useCallback((_, edge) => {
@@ -82,6 +86,7 @@ const render = createRender(() => {
         onConnect={onConnect}
         fitView
         attributionPosition="top-right"
+        connectionLineStyle={{ strokeWidth: 3 }} // Apply thick line while dragging
       >
         <Background />
         <Controls />
