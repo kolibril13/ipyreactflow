@@ -12,7 +12,7 @@ def __():
     import numpy as np
     plt.style.use('_mpl-gallery')
 
-    np.random.seed(42)
+    np.random.seed(21)
     x = 4 + np.random.normal(0, 2, 24)
     y = 4 + np.random.normal(0, 2, len(x))
     sizes = np.random.uniform(15, 80, len(x))
@@ -37,12 +37,16 @@ def __(widget):
 @app.cell
 def __(np, opacity, plt, sizes, widget, x, y):
     fig, ax = plt.subplots()
-    ax.scatter(x, y, s=sizes*5, color=widget.target_node or None, alpha=opacity)
+    if widget.target_node == "green":
+        c= "limegreen"
+    if widget.target_node == "blue":
+        c= "deepskyblue"
+    ax.scatter(x, y, s=sizes*30, color=c or None, alpha=opacity*1)
 
     fig.set_size_inches(3, 3)
     ax.set(xlim=(0, 8), xticks=np.arange(1, 8), ylim=(0, 8), yticks=np.arange(1, 8))
     plt.gca()
-    return ax, fig
+    return ax, c, fig
 
 
 @app.cell

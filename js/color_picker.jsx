@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createRender, useModelState } from "@anywidget/react";  // import useModelState
+import { createRender, useModelState } from "@anywidget/react"; // import useModelState
 import { useCallback, useRef } from "react";
 import {
   ReactFlow,
@@ -17,20 +17,21 @@ const initialNodes = [
   {
     id: "Color",
     type: "input",
-    data: { label: "Color" },
+    data: { label: "Color", style: { fontSize: "10px" } }, // Increased font size
     position: { x: 250, y: 0 },
+    style: { fontSize: "20px" },
   },
   {
     id: "blue",
     data: { label: "blue" },
     position: { x: 100, y: 200 },
-    style: { backgroundColor: "#A3DFFF" }, // Add blue background
+    style: { backgroundColor: "#78DDFF", fontSize: "20px" }, // Add blue background
   },
   {
     id: "green",
     data: { label: "green" },
     position: { x: 350, y: 200 },
-    style: { backgroundColor: "#D0FFBC" }, // Add green background
+    style: { backgroundColor: "#92E492", fontSize: "20px" }, // Add green background
   },
 ];
 
@@ -45,7 +46,8 @@ const render = createRender(() => {
   const [targetNode, setTargetNode] = useModelState("target_node");
 
   const onConnect = useCallback(
-    (params) => setEdges((els) => addEdge({ ...params, style: { strokeWidth: 3 } }, els)), // Ensure new connections also have thicker lines
+    (params) =>
+      setEdges((els) => addEdge({ ...params, style: { strokeWidth: 3 } }, els)), // Ensure new connections also have thicker lines
     []
   );
 
@@ -55,7 +57,13 @@ const render = createRender(() => {
 
   const onReconnect = useCallback((oldEdge, newConnection) => {
     edgeReconnectSuccessful.current = true;
-    setEdges((els) => reconnectEdge({ ...oldEdge, style: { strokeWidth: 3 } }, newConnection, els)); // Apply thicker line when reconnecting
+    setEdges((els) =>
+      reconnectEdge(
+        { ...oldEdge, style: { strokeWidth: 3 } },
+        newConnection,
+        els
+      )
+    ); // Apply thicker line when reconnecting
   }, []);
 
   const onReconnectEnd = useCallback((_, edge) => {
