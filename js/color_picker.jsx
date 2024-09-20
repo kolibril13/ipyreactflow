@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createRender } from "@anywidget/react";
+import { createRender, useModelState } from "@anywidget/react";  // import useModelState
 import { useCallback, useRef } from "react";
 import {
   ReactFlow,
@@ -38,6 +38,8 @@ const render = createRender(() => {
   const edgeReconnectSuccessful = useRef(true);
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [targetNode, setTargetNode] = useModelState("target_node"); 
+
   const onConnect = useCallback(
     (params) => setEdges((els) => addEdge(params, els)),
     []
@@ -60,8 +62,10 @@ const render = createRender(() => {
   }, []);
 
   React.useEffect(() => {
-    console.log(edges);
-    console.log("Target:", edges[0].target);
+    if (edges.length > 0) {
+      console.log("Target:", edges[0].target);
+      setTargetNode(edges[0].target);
+    }
   }, [edges]);
 
   return (
@@ -80,7 +84,6 @@ const render = createRender(() => {
         attributionPosition="top-right"
       >
         <Background />
-
         <Controls />
       </ReactFlow>
     </div>
