@@ -15,24 +15,24 @@ import "./widget.css";
 
 const initialNodes = [
   {
-    id: "1",
+    id: "Color",
     type: "input",
-    data: { label: "Node A" },
+    data: { label: "Color" },
     position: { x: 250, y: 0 },
   },
   {
-    id: "2",
-    data: { label: "Node B" },
+    id: "blue",
+    data: { label: "blue" },
     position: { x: 100, y: 200 },
   },
   {
-    id: "3",
-    data: { label: "Node C" },
+    id: "green",
+    data: { label: "green" },
     position: { x: 350, y: 200 },
   },
 ];
 
-const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
+const initialEdges = [{ id: "e1-2", source: "Color", target: "blue" }];
 
 const render = createRender(() => {
   const edgeReconnectSuccessful = useRef(true);
